@@ -5,6 +5,7 @@ import { COLORS, WEIGHTS } from '../../constants';
 import Logo from '../Logo';
 import SuperHeader from '../SuperHeader';
 import MobileMenu from '../MobileMenu';
+import Icon from '../Icon';
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
@@ -16,7 +17,9 @@ const Header = () => {
 
   return (
     <header>
-      <SuperHeader />
+
+        <SuperHeaderWrapper><SuperHeader /></SuperHeaderWrapper>
+
       <MainHeader>
         <Side>
           <Logo />
@@ -30,6 +33,11 @@ const Header = () => {
           <NavLink href="/collections">Collections</NavLink>
         </Nav>
         <Side />
+          <IconWrapper>
+              <Icon id={"shopping-bag"}/>
+              <Icon id={"search"}/>
+              <IconButtonWrapper onClick={() => setShowMobileMenu(true)}><Icon id={"menu"} /></IconButtonWrapper>
+          </IconWrapper>
       </MainHeader>
 
       <MobileMenu
@@ -40,22 +48,57 @@ const Header = () => {
   );
 };
 
+const SuperHeaderWrapper = styled.div`
+  display: contents;
+  
+    @media(max-width: ${props => props.theme.queries.laptop}){
+      display: none;
+    }
+`
+
 const MainHeader = styled.div`
   display: flex;
   align-items: baseline;
   padding: 18px 32px;
   height: 72px;
   border-bottom: 1px solid ${COLORS.gray[300]};
+  overflow-x: auto;
+  
+  
+  @media(max-width: ${props => props.theme.queries.laptop}){
+    border-top: 4px solid black;
+    align-items: center;
+    gap: 20px;
+  }
 `;
 
 const Nav = styled.nav`
   display: flex;
-  gap: 48px;
+  gap: clamp(1.5rem, 4.8vw - 0.9rem, 3rem);
   margin: 0px 48px;
+
+  @media(max-width: ${props => props.theme.queries.laptop}){
+    display: none;
+  }
 `;
+
+const IconWrapper = styled.div`
+  display: none;
+
+  @media(max-width: ${props => props.theme.queries.laptop}){
+    display: contents;
+  }
+`
+
+const IconButtonWrapper = styled.button`
+  background-color: white;
+  border: none;
+  padding: 0;
+`
 
 const Side = styled.div`
   flex: 1;
+  
 `;
 
 const NavLink = styled.a`
